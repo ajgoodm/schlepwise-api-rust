@@ -9,14 +9,14 @@ use crate::api::handlers::utils::{error_status, host, port};
 
 #[get("/")]
 pub fn all_households(connection: DbConn) -> Result<Json<Vec<Household>>, Status> {
-    api::repository::show_households(&connection)
+    api::repositories::household::show_households(&connection)
         .map(|household| Json(household))
         .map_err(|error| error_status(error))
 }
 
 #[post("/", format ="application/json", data = "<new_household>")]
 pub fn create_household(new_household: Json<NewHousehold>, connection: DbConn) ->  Result<status::Created<Json<Household>>, Status> {
-    api::repository::create_household(new_household.into_inner(), &connection)
+    api::repositories::household::create_household(new_household.into_inner(), &connection)
         .map(|household| household_created(household))
         .map_err(|error| error_status(error))
 
@@ -24,21 +24,21 @@ pub fn create_household(new_household: Json<NewHousehold>, connection: DbConn) -
 
 #[get("/<id>")]
 pub fn get_household(id: i32, connection: DbConn) -> Result<Json<Household>, Status> {
-    api::repository::get_household(id, &connection)
+    api::repositories::household::get_household(id, &connection)
         .map(|household| Json(household))
         .map_err(|error| error_status(error))
 }
 
 #[put("/<id>", format = "application/json", data = "<household>")]
 pub fn update_household(id: i32, household: Json<Household>, connection: DbConn) -> Result<Json<Household>, Status> {
-    api::repository::update_household(id, household.into_inner(), &connection)
+    api::repositories::household::update_household(id, household.into_inner(), &connection)
         .map(|household| Json(household))
         .map_err(|error| error_status(error))
 }
 
 #[delete("/<id>")]
 pub fn delete_household(id: i32, connection: DbConn) -> Result<status::NoContent, Status> {
-    api::repository::delete_household(id, &connection)
+    api::repositories::household::delete_household(id, &connection)
         .map(|_| status::NoContent)
         .map_err(|error| error_status(error))
 }

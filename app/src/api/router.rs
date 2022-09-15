@@ -13,6 +13,8 @@ pub fn create_routes() {
                 handlers::household::get_household,
                 handlers::household::update_household,
                 handlers::household::delete_household,
-            ],
-        ).launch();
+                handlers::family_member::all_family_members,
+            ]
+        )
+        .launch();
 }
