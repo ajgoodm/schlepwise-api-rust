@@ -1,4 +1,4 @@
 pub mod model;
-pub mod handler;
+pub mod handlers;
 pub mod repository;
 pub mod router;

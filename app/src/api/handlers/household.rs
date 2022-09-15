@@ -1,6 +1,3 @@
-use std::env;
-
-use diesel::result::Error;
 use rocket::http::Status;
 use rocket::response::status;
 use rocket_contrib::json::Json;
@@ -8,6 +5,7 @@ use rocket_contrib::json::Json;
 use crate::connection::DbConn;
 use crate::api;
 use crate::api::model::{Household, NewHousehold};
+use crate::api::handlers::utils::{error_status, host, port};
 
 #[get("/")]
 pub fn all_households(connection: DbConn) -> Result<Json<Vec<Household>>, Status> {
@@ -51,19 +49,4 @@ fn household_created(household: Household) -> status::Created<Json<Household>> {
         format!("{host}:{port}/post/{id}", host = host(), port = port(), id = household.id).to_string(),
         Some(Json(household))
     )
-}
-
-fn host() -> String {
-    env::var("SCHLEPWISE_API_HOST").expect("SCHLEPWISE_API_HOST must be set")
-}
-
-fn port() -> String {
-    env::var("SCHLEPWISE_API_PORT").expect("SCHLEPWISE_API_PORT must be set")
-}
-
-fn error_status(error: Error) -> Status {
-    match error {
-        Error::NotFound => Status::NotFound,
-        _ => Status::InternalServerError
-    }
 }
