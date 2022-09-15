@@ -3,9 +3,10 @@
 use diesel;
 use diesel::prelude::*;
 
-use crate::api::model::{FamilyMember, Household};
+use crate::api::model::{FamilyMember, Household, NewFamilyMember};
 
 use crate::schema::households;
+use crate::schema::family_members;
 use crate::schema::family_members::dsl::*;
 
 pub fn show_family_members(connection: &PgConnection, household_id_: i32) -> QueryResult<Vec<FamilyMember>>  {
@@ -14,4 +15,11 @@ pub fn show_family_members(connection: &PgConnection, household_id_: i32) -> Que
         .filter(household_id.eq(&household_id_))
         .limit(5)
         .load::<FamilyMember>(&*connection)
+}
+
+pub fn create_family_member(household_id_: i32, new_family_member: NewFamilyMember, connection: &PgConnection) -> QueryResult<FamilyMember> {
+    households::table.find(household_id_).get_result::<Household>(connection)?;
+    diesel::insert_into(family_members::table)
+        .values(&new_family_member)
+        .get_result(connection)
 }

@@ -19,7 +19,6 @@ pub fn create_household(new_household: Json<NewHousehold>, connection: DbConn) -
     api::repositories::household::create_household(new_household.into_inner(), &connection)
         .map(|household| household_created(household))
         .map_err(|error| error_status(error))
-
 }
 
 #[get("/<id>")]
@@ -46,7 +45,7 @@ pub fn delete_household(id: i32, connection: DbConn) -> Result<status::NoContent
 
 fn household_created(household: Household) -> status::Created<Json<Household>> {
     status::Created(
-        format!("{host}:{port}/post/{id}", host = host(), port = port(), id = household.id).to_string(),
+        format!("{host}:{port}/households/{id}", host = host(), port = port(), id = household.id).to_string(),
         Some(Json(household))
     )
 }

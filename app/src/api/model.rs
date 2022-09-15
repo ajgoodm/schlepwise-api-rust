@@ -31,3 +31,10 @@ pub struct NewFamilyMember {
     pub last_name: Option<String>,
     pub household_id: i32,
 }
+
+
+#[derive(Serialize, Deserialize)]
+pub struct FirstNameLastName {
+    pub first_name: String,
+    pub last_name: Option<String>,
+}
