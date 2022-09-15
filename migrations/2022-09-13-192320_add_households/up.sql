@@ -1,0 +1,4 @@
+CREATE TABLE households (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL
+)
