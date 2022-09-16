@@ -31,6 +31,18 @@ pub fn create_family_member(
         .map_err(|error| error_status(error))
 }
 
+
+#[get("/<house_hold_id_>/family_members/<id>")]
+pub fn get_family_member(
+    house_hold_id_: i32,
+    id: i32,
+    connection: DbConn
+) -> Result<Json<FamilyMember>, Status> {
+    api::repositories::family_member::get_family_member(house_hold_id_, id, &connection)
+        .map(|family_member| Json(family_member))
+        .map_err(|error| error_status(error))
+}
+
 fn family_member_created(family_member: FamilyMember) -> status::Created<Json<FamilyMember>> {
     status::Created(
         format!(

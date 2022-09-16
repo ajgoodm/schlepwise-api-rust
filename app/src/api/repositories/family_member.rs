@@ -23,3 +23,9 @@ pub fn create_family_member(household_id_: i32, new_family_member: NewFamilyMemb
         .values(&new_family_member)
         .get_result(connection)
 }
+
+pub fn get_family_member(house_hold_id_: i32, family_member_id: i32, connection: &PgConnection) -> QueryResult<FamilyMember> {
+    family_members::table.find(family_member_id)
+        .filter(household_id.eq(&house_hold_id_))
+        .get_result(connection)
+}
