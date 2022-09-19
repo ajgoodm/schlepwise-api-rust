@@ -1,12 +1,13 @@
 use rocket;
 
-use crate::connection;
 use crate::api::handlers;
+use crate::connection;
 
 pub fn create_routes() {
     rocket::ignite()
         .manage(connection::init_pool())
-        .mount("/households",
+        .mount(
+            "/households",
             routes![
                 handlers::household::all_households,
                 handlers::household::create_household,
@@ -16,7 +17,8 @@ pub fn create_routes() {
                 handlers::family_member::all_family_members,
                 handlers::family_member::create_family_member,
                 handlers::family_member::get_family_member,
-            ]
+                handlers::family_member::delete_family_member,
+            ],
         )
         .launch();
 }

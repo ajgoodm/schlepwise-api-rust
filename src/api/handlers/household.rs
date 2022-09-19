@@ -56,8 +56,7 @@ fn household_created(household: Household) -> status::Created<Json<Household>> {
             host = host(),
             port = port(),
             id = household.id
-        )
-        .to_string(),
+        ),
         Some(Json(household)),
     )
 }

@@ -5,25 +5,34 @@ use diesel::prelude::*;
 
 use crate::api::model::{Household, NewHousehold};
 
+use crate::schema::family_members::dsl::*;
 use crate::schema::households;
 use crate::schema::households::dsl::*;
-use crate::schema::family_members::dsl::*;
 
-pub fn create_household(new_household: NewHousehold, conn: &PgConnection) -> QueryResult<Household> {
+pub fn create_household(
+    new_household: NewHousehold,
+    conn: &PgConnection,
+) -> QueryResult<Household> {
     diesel::insert_into(households::table)
         .values(&new_household)
         .get_result(conn)
 }
 
-pub fn show_households(connection: &PgConnection) -> QueryResult<Vec<Household>>  {
-    households.limit(5).load::<Household>(&*connection)
+pub fn show_households(connection: &PgConnection) -> QueryResult<Vec<Household>> {
+    households.limit(5).load::<Household>(connection)
 }
 
 pub fn get_household(household_id_: i32, connection: &PgConnection) -> QueryResult<Household> {
-    households::table.find(household_id_).get_result::<Household>(connection)
+    households::table
+        .find(household_id_)
+        .get_result::<Household>(connection)
 }
 
-pub fn update_household(household_id_: i32, household: Household, connection: &PgConnection) -> QueryResult<Household> {
+pub fn update_household(
+    household_id_: i32,
+    household: Household,
+    connection: &PgConnection,
+) -> QueryResult<Household> {
     diesel::update(households::table.find(household_id_))
         .set(&household)
         .get_result(connection)
@@ -31,6 +40,5 @@ pub fn update_household(household_id_: i32, household: Household, connection: &P
 
 pub fn delete_household(household_id_: i32, connection: &PgConnection) -> QueryResult<usize> {
     diesel::delete(family_members.filter(household_id.eq(household_id_))).execute(connection)?;
-    diesel::delete(households::table.find(household_id_))
-        .execute(connection)
+    diesel::delete(households::table.find(household_id_)).execute(connection)
 }

@@ -2,11 +2,10 @@ use std::env;
 use std::ops::Deref;
 
 use diesel::pg::PgConnection;
-use r2d2;
 use r2d2_diesel::ConnectionManager;
-use rocket::{Outcome, Request, State};
 use rocket::http::Status;
 use rocket::request::{self, FromRequest};
+use rocket::{Outcome, Request, State};
 
 type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
@@ -16,19 +15,20 @@ pub fn init_pool() -> Pool {
 }
 
 fn database_url() -> String {
-    let host: String = env::var("SCHLEPWISE_POSTGRES_HOST").expect("SCHLEPWISE_POSTGRES_HOST must be set");
-    let port: String = env::var("SCHLEPWISE_POSTGRES_PORT").expect("SCHLEPWISE_POSTGRES_PORT must be set");
-    let user: String = env::var("SCHLEPWISE_POSTGRES_USER").expect("SCHLEPWISE_POSTGRES_USER must be set");
-    let password: String = env::var("SCHLEPWISE_POSTGRES_PASSWORD").expect("SCHLEPWISE_POSTGRES_PASSWORD must be set");
-    let db_name: String = env::var("SCHLEPWISE_POSTGRES_DB_NAME").expect("SCHLEPWISE_POSTGRES_DB_NAME must be set");
+    let host: String =
+        env::var("SCHLEPWISE_POSTGRES_HOST").expect("SCHLEPWISE_POSTGRES_HOST must be set");
+    let port: String =
+        env::var("SCHLEPWISE_POSTGRES_PORT").expect("SCHLEPWISE_POSTGRES_PORT must be set");
+    let user: String =
+        env::var("SCHLEPWISE_POSTGRES_USER").expect("SCHLEPWISE_POSTGRES_USER must be set");
+    let password: String =
+        env::var("SCHLEPWISE_POSTGRES_PASSWORD").expect("SCHLEPWISE_POSTGRES_PASSWORD must be set");
+    let db_name: String =
+        env::var("SCHLEPWISE_POSTGRES_DB_NAME").expect("SCHLEPWISE_POSTGRES_DB_NAME must be set");
 
     format!(
         "postgres://{}:{}@{}:{}/{}",
-        user,
-        password,
-        host,
-        port,
-        db_name
+        user, password, host, port, db_name
     )
 }
 

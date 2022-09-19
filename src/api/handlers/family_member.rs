@@ -72,8 +72,7 @@ fn family_member_created(family_member: FamilyMember) -> status::Created<Json<Fa
             port = port(),
             household_id_ = family_member.household_id,
             family_member_id_ = family_member.id,
-        )
-        .to_string(),
+        ),
         Some(Json(family_member)),
     )
 }

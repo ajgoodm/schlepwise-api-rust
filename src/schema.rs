@@ -18,7 +18,4 @@ diesel::table! {
 
 diesel::joinable!(family_members -> households (household_id));
 
-diesel::allow_tables_to_appear_in_same_query!(
-    family_members,
-    households,
-);
+diesel::allow_tables_to_appear_in_same_query!(family_members, households,);

@@ -13,8 +13,8 @@ extern crate serde_derive;
 use dotenv::dotenv;
 
 mod api;
-mod schema;
 mod connection;
+mod schema;
 
 fn main() {
     dotenv().ok();

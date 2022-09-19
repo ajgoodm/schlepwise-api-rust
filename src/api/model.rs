@@ -10,7 +10,7 @@ pub struct Household {
 }
 
 #[derive(Insertable, Serialize, Deserialize)]
-#[table_name="households"]
+#[table_name = "households"]
 pub struct NewHousehold {
     pub name: String,
 }
@@ -25,13 +25,12 @@ pub struct FamilyMember {
 }
 
 #[derive(Insertable, Serialize, Deserialize)]
-#[table_name="family_members"]
+#[table_name = "family_members"]
 pub struct NewFamilyMember {
     pub first_name: String,
     pub last_name: Option<String>,
     pub household_id: i32,
 }
-
 
 #[derive(Serialize, Deserialize)]
 pub struct FirstNameLastName {
