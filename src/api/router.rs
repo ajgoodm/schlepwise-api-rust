@@ -18,6 +18,10 @@ pub fn create_routes() {
                 handlers::family_member::create_family_member,
                 handlers::family_member::get_family_member,
                 handlers::family_member::delete_family_member,
+                handlers::chore::all_chores,
+                handlers::chore::create_chore,
+                handlers::chore::get_chore,
+                handlers::chore::delete_chore,
             ],
         )
         .launch();

@@ -64,4 +64,5 @@ pub struct NewChoreDetails {
     pub name: String,
     pub description: Option<String>,
     pub expected_duration_minutes: Option<f32>,
+    pub created_by_family_member_id: i32,
 }

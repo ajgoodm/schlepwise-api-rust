@@ -20,16 +20,16 @@ pub fn all_family_members(
 #[post(
     "/<household_id_>/family_members",
     format = "application/json",
-    data = "<first_name_last_name>"
+    data = "<new_family_member_details>"
 )]
 pub fn create_family_member(
     household_id_: i32,
-    first_name_last_name: Json<NewFamilyMemberDetails>,
+    new_family_member_details: Json<NewFamilyMemberDetails>,
     connection: DbConn,
 ) -> Result<status::Created<Json<FamilyMember>>, Status> {
     let new_family_member = Json(NewFamilyMember {
-        first_name: first_name_last_name.first_name.clone(),
-        last_name: first_name_last_name.last_name.clone(),
+        first_name: new_family_member_details.first_name.clone(),
+        last_name: new_family_member_details.last_name.clone(),
         household_id: household_id_,
     });
 
