@@ -1,6 +1,6 @@
 #![allow(proc_macro_derive_resolution_fallback)]
 
-use crate::schema::{family_members, households};
+use crate::schema::{chores, family_members, households};
 
 #[derive(Queryable, AsChangeset, Serialize, Deserialize, Debug)]
 #[table_name = "households"]
@@ -33,7 +33,36 @@ pub struct NewFamilyMember {
 }
 
 #[derive(Serialize, Deserialize)]
-pub struct FirstNameLastName {
+pub struct NewFamilyMemberDetails {
     pub first_name: String,
     pub last_name: Option<String>,
+}
+
+#[derive(Queryable, AsChangeset, Serialize, Deserialize, Debug)]
+#[table_name = "chores"]
+pub struct Chore {
+    pub id: i32,
+    pub name: String,
+    pub description: Option<String>,
+    pub expected_duration_minutes: Option<f32>,
+    pub household_id: i32,
+    pub created_by_family_member_id: i32,
+}
+
+#[derive(Insertable, Serialize, Deserialize)]
+#[table_name = "chores"]
+pub struct NewChore {
+    pub name: String,
+    pub description: Option<String>,
+    pub expected_duration_minutes: Option<f32>,
+    pub household_id: i32,
+    pub created_by_family_member_id: i32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct NewChoreDetails {
+    pub name: String,
+    pub description: Option<String>,
+    pub expected_duration_minutes: Option<f32>,
+    pub created_by_family_member_id: i32,
 }
