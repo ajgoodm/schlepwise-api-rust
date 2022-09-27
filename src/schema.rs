@@ -3,8 +3,8 @@
 diesel::table! {
     chore_executions (id) {
         id -> Int4,
-        started_at -> Nullable<Timestamptz>,
-        finished_at -> Nullable<Timestamptz>,
+        started_at -> Timestamptz,
+        finished_at -> Timestamptz,
         chore_id -> Int4,
         executed_by_family_member_id -> Int4,
     }
