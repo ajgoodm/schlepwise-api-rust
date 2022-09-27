@@ -1,6 +1,16 @@
 // @generated automatically by Diesel CLI.
 
 diesel::table! {
+    chore_executions (id) {
+        id -> Int4,
+        started_at -> Nullable<Timestamptz>,
+        finished_at -> Nullable<Timestamptz>,
+        chore_id -> Int4,
+        executed_by_family_member_id -> Int4,
+    }
+}
+
+diesel::table! {
     chores (id) {
         id -> Int4,
         name -> Varchar,
@@ -27,8 +37,10 @@ diesel::table! {
     }
 }
 
+diesel::joinable!(chore_executions -> chores (chore_id));
+diesel::joinable!(chore_executions -> family_members (executed_by_family_member_id));
 diesel::joinable!(chores -> family_members (created_by_family_member_id));
 diesel::joinable!(chores -> households (household_id));
 diesel::joinable!(family_members -> households (household_id));
 
-diesel::allow_tables_to_appear_in_same_query!(chores, family_members, households,);
+diesel::allow_tables_to_appear_in_same_query!(chore_executions, chores, family_members, households,);
