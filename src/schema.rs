@@ -5,7 +5,7 @@ diesel::table! {
         id -> Int4,
         name -> Varchar,
         description -> Nullable<Varchar>,
-        expected_duration_minutes -> Nullable<Numeric>,
+        expected_duration_minutes -> Nullable<Float4>,
         household_id -> Int4,
         created_by_family_member_id -> Int4,
     }

@@ -4,7 +4,7 @@ use rocket_contrib::json::Json;
 
 use crate::api;
 use crate::api::handlers::utils::{error_status, host, port};
-use crate::api::model::{FamilyMember, FirstNameLastName, NewFamilyMember};
+use crate::api::model::{FamilyMember, NewFamilyMember, NewFamilyMemberDetails};
 use crate::connection::DbConn;
 
 #[get("/<household_id_>/family_members")]
@@ -24,7 +24,7 @@ pub fn all_family_members(
 )]
 pub fn create_family_member(
     household_id_: i32,
-    first_name_last_name: Json<FirstNameLastName>,
+    first_name_last_name: Json<NewFamilyMemberDetails>,
     connection: DbConn,
 ) -> Result<status::Created<Json<FamilyMember>>, Status> {
     let new_family_member = Json(NewFamilyMember {
