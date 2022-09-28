@@ -7,7 +7,7 @@ use crate::api::model::ChoreExecution;
 use crate::connection::DbConn;
 
 #[get("/<household_id_>/chore_executions")]
-pub fn all_chores_for_household(
+pub fn all_chore_executions_for_household(
     connection: DbConn,
     household_id_: i32,
 ) -> Result<Json<Vec<ChoreExecution>>, Status> {
@@ -17,7 +17,7 @@ pub fn all_chores_for_household(
 }
 
 #[get("/<household_id_>/family_members/<family_member_id_>/chore_executions")]
-pub fn all_chores_for_family_member(
+pub fn all_chore_executions_for_family_member(
     connection: DbConn,
     household_id_: i32,
     family_member_id_: i32,
