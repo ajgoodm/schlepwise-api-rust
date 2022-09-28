@@ -22,6 +22,8 @@ pub fn create_routes() {
                 handlers::chore::create_chore,
                 handlers::chore::get_chore,
                 handlers::chore::delete_chore,
+                handlers::chore_execution::all_chore_executions_for_household,
+                handlers::chore_execution::all_chore_executions_for_family_member,
             ],
         )
         .launch();

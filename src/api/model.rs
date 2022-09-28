@@ -1,6 +1,8 @@
 #![allow(proc_macro_derive_resolution_fallback)]
 
-use crate::schema::{chores, family_members, households};
+use chrono::prelude::*;
+
+use crate::schema::{chore_executions, chores, family_members, households};
 
 #[derive(Queryable, AsChangeset, Serialize, Deserialize, Debug)]
 #[table_name = "households"]
@@ -65,4 +67,31 @@ pub struct NewChoreDetails {
     pub description: Option<String>,
     pub expected_duration_minutes: Option<f32>,
     pub created_by_family_member_id: i32,
+}
+
+#[derive(Queryable, AsChangeset, Serialize, Deserialize, Debug)]
+#[table_name = "chore_executions"]
+pub struct ChoreExecution {
+    pub id: i32,
+    pub started_at: DateTime<Utc>,
+    pub finished_at: DateTime<Utc>,
+    pub chore_id: i32,
+    pub executed_by_family_member_id: i32,
+}
+
+#[derive(Insertable, Serialize, Deserialize)]
+#[table_name = "chore_executions"]
+pub struct NewChoreExecution {
+    pub started_at: DateTime<Utc>,
+    pub finished_at: DateTime<Utc>,
+    pub chore_id: i32,
+    pub executed_by_family_member_id: i32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct NewChoreExecutionDetails {
+    pub started_at: DateTime<Utc>,
+    pub finished_at: DateTime<Utc>,
+    pub chore_id: i32,
+    pub executed_by_family_member_id: i32,
 }
