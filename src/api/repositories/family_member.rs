@@ -6,7 +6,6 @@ use diesel::prelude::*;
 use crate::api::model::{FamilyMember, Household, NewFamilyMember};
 
 use crate::schema::family_members;
-use crate::schema::family_members::dsl::*;
 use crate::schema::households;
 
 pub fn show_family_members(
@@ -16,8 +15,8 @@ pub fn show_family_members(
     households::table
         .find(household_id_)
         .get_result::<Household>(connection)?;
-    family_members
-        .filter(household_id.eq(&household_id_))
+    family_members::table
+        .filter(family_members::household_id.eq(&household_id_))
         .limit(5)
         .load::<FamilyMember>(connection)
 }
@@ -42,7 +41,7 @@ pub fn get_family_member(
 ) -> QueryResult<FamilyMember> {
     family_members::table
         .find(family_member_id)
-        .filter(household_id.eq(&household_id_))
+        .filter(family_members::household_id.eq(&household_id_))
         .get_result(connection)
 }
 
@@ -54,5 +53,5 @@ pub fn delete_family_member(
     households::table
         .find(household_id_)
         .get_result::<Household>(connection)?;
-    diesel::delete(family_members.find(family_member_id)).execute(connection)
+    diesel::delete(family_members::table.find(family_member_id)).execute(connection)
 }
