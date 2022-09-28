@@ -5,9 +5,8 @@ use diesel::prelude::*;
 
 use crate::api::model::{Household, NewHousehold};
 
-use crate::schema::family_members::dsl::*;
+use crate::schema::family_members;
 use crate::schema::households;
-use crate::schema::households::dsl::*;
 
 pub fn create_household(
     new_household: NewHousehold,
@@ -19,7 +18,7 @@ pub fn create_household(
 }
 
 pub fn show_households(connection: &PgConnection) -> QueryResult<Vec<Household>> {
-    households.limit(5).load::<Household>(connection)
+    households::table.limit(5).load::<Household>(connection)
 }
 
 pub fn get_household(household_id_: i32, connection: &PgConnection) -> QueryResult<Household> {
@@ -39,6 +38,7 @@ pub fn update_household(
 }
 
 pub fn delete_household(household_id_: i32, connection: &PgConnection) -> QueryResult<usize> {
-    diesel::delete(family_members.filter(household_id.eq(household_id_))).execute(connection)?;
+    diesel::delete(family_members::table.filter(family_members::household_id.eq(household_id_)))
+        .execute(connection)?;
     diesel::delete(households::table.find(household_id_)).execute(connection)
 }
