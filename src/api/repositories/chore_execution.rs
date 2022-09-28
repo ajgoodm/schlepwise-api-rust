@@ -35,7 +35,7 @@ pub fn show_chore_executions(
             //         .on(family_members::id.eq(chore_executions::executed_by_family_member_id)),
             // )
             // .filter(family_members::household_id.eq(household_id_))
-            // .order_by(executed_by_family_member_id.asc())
+            .order_by(executed_by_family_member_id.asc())
             .limit(5)
             .load::<ChoreExecution>(connection)
     }
