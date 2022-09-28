@@ -5,9 +5,8 @@ use diesel::prelude::*;
 
 use crate::api::model::{ChoreExecution, FamilyMember, Household};
 
-use crate::schema::chore_executions::dsl::*;
+use crate::schema::chore_executions;
 use crate::schema::family_members;
-use crate::schema::family_members::dsl::household_id;
 use crate::schema::households;
 
 pub fn show_chore_executions(
@@ -18,21 +17,26 @@ pub fn show_chore_executions(
     if let Some(family_member_id_) = executed_by_family_member_id_ {
         family_members::table
             .find(family_member_id_)
-            .filter(household_id.eq(&household_id_))
+            .filter(family_members::household_id.eq(&household_id_))
             .get_result::<FamilyMember>(connection)?;
-        chore_executions
-            .filter(executed_by_family_member_id.eq(&family_member_id_))
+        chore_executions::table
+            .filter(chore_executions::executed_by_family_member_id.eq(&family_member_id_))
             .limit(5)
             .load::<ChoreExecution>(connection)
     } else {
         households::table
             .find(household_id_)
             .get_result::<Household>(connection)?;
-        chore_executions
-            // .inner_join(family_members::table)
-            // .filter(household_id.eq(household_id_))
-            .order_by(executed_by_family_member_id.asc())
+        chore_executions::table
+            .filter(
+                chore_executions::executed_by_family_member_id.eq_any(
+                    family_members::table
+                        .filter(family_members::household_id.eq(household_id_))
+                        .select(family_members::id),
+                ),
+            )
+            .order_by(chore_executions::executed_by_family_member_id.asc())
             .limit(5)
-            .load::<ChoreExecution>(connection)
+            .load(connection)
     }
 }
