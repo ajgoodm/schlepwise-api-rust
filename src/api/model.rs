@@ -93,5 +93,4 @@ pub struct NewChoreExecutionDetails {
     pub started_at: DateTime<Utc>,
     pub finished_at: DateTime<Utc>,
     pub chore_id: i32,
-    pub executed_by_family_member_id: i32,
 }
