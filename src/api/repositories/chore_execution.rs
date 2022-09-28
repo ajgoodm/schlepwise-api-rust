@@ -3,10 +3,9 @@
 use diesel;
 use diesel::prelude::*;
 
-use crate::api::model::ChoreExecution;
+use crate::api::model::{Chore, ChoreExecution, FamilyMember, NewChoreExecution};
 
-use crate::schema::chore_executions;
-use crate::schema::family_members;
+use crate::schema::{chore_executions, chores, family_members};
 
 pub fn show_chore_executions_for_household(
     connection: &PgConnection,
@@ -45,4 +44,19 @@ pub fn show_chore_executions_for_chore(
         .order_by(chore_executions::executed_by_family_member_id.asc())
         .limit(10)
         .load(connection)
+}
+
+pub fn create_chore_execution(
+    new_chore_execution: NewChoreExecution,
+    connection: &PgConnection,
+) -> QueryResult<ChoreExecution> {
+    chores::table
+        .find(new_chore_execution.chore_id)
+        .get_result::<Chore>(connection)?;
+    family_members::table
+        .find(new_chore_execution.executed_by_family_member_id)
+        .get_result::<FamilyMember>(connection)?;
+    diesel::insert_into(chore_executions::table)
+        .values(&new_chore_execution)
+        .get_result(connection)
 }
